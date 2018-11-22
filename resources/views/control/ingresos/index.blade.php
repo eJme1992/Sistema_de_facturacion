@@ -47,16 +47,7 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="form-group col-md-2" style="padding-left: 0px;">
-                            <label>Forma de pago</label>
-                            <select class="form-control text-uppercase" name="id_forma_pago" value="{{ old('id_forma_pago') }}">
-                                @foreach($formasPago as $formaPago)
-                                    <option value="{{$formaPago->id}}">{{$formaPago->nombre}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
+                        
                         <input type="hidden" class="form-control text-uppercase" name="id_type" value="{{ $id_type }}">
                         <input type="hidden" class="form-control text-uppercase" name="deHoy" value=1>
                         <input type="hidden" class="form-control text-uppercase" name="completada" value=0>

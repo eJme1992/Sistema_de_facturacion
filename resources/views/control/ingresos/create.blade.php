@@ -7,26 +7,7 @@
             <h1 style="margin-top: auto;">{{ $titulo }}</h1>
         </div>
         @if($subtitulo != "La orden todavía no existe")
-            <div style="margin-left: auto; margin-top: 3px;">
-                <label class="btn btn-success">TOTAL ${{ $order->monto }}</label>
-            </div>
-            <div style="margin-top: 3px; margin-left: 5px;">
-                @if($order->descuento == 0)
-                    @if($order->completada == 0)
-                    <form method="POST" action="/admin/control/{{$tipo}}/descuento/{{ $id_order }}">
-                        {!!csrf_field()!!}
-                        <input class="btn btn-default" type="number" min="0" max="25" name="descuento" placeholder="DESC %" style="width: 105px;">
-                    </form>
-                    @else
-                        <label class="btn btn-default">DESC ${{ $order->descuento }}</label>
-                    @endif
-                @else
-                    <label class="btn btn-danger">DESC ${{ $order->descuento }}</label>
-                @endif
-            </div>
-            <div style="margin-top: 3px; margin-left: 5px;">
-                <label class="btn btn-warning">MONTO ${{ $order->monto - $order->descuento }}</label>
-            </div>
+      
             <div style="margin-top: 3px; margin-left: 5px;">
                 @if($order->completada == 1)
                     @if(str_contains(URL::previous(), 'clientes'))
@@ -42,25 +23,9 @@
     <p>
         <h4 class="mt-2 mb-3">{{ $subtitulo }}</h4>
     </p>
-
+  
     @if($subtitulo != "La orden todavía no existe")
-        <div style="display: flex; margin-top: 0px;">
-            <h4 style="margin-top: 10px;color: darkviolet;" class="mt-2 mb-3">{{ $pie }}</h4>
-            <div style="margin-top: 2px; margin-left: auto;">
-                @if($order->completada != 1)
-                    <form method="POST" action="/admin/control/{{$tipo}}/cerrar/{{ $id_order }}">
-                    {!!csrf_field()!!}
-                        @if($order->id_forma_pago == 3)
-                        <input required class="btn btn-default" type="number" min="0" name="pago_efec" placeholder="Efectivo" style="width: 105px;">
-                        <input required class="btn btn-default" type="number" min="0" name="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
-                        @endif
-                        <input type="hidden" class="form-control" name="completada" value="1">
-                        <button type="submit" class="btn btn-danger" style="width: 98px;margin-right: 5px;">Terminar</button>
-                    </form>
-                @endif
-            </div>
-            {{-- -------------------  Cerrar  ------------------ --}}
-        </div>
+   
 
         <div class="card card-body">
             <p>
@@ -173,5 +138,55 @@
                 @endforeach
             </tbody>
         </table>
+
+ <!-- DD-->
+ <div style="display: flex;">
+       <div style="margin-left: auto; margin-top: 3px;">
+                <label class="btn btn-success">TOTAL ${{ $order->monto }}</label>
+            </div>
+            <div style="margin-top: 3px; margin-left: 5px;">
+                @if($order->descuento == 0)
+                    @if($order->completada == 0)
+                    <form method="POST" action="/admin/control/{{$tipo}}/descuento/{{ $id_order }}">
+                        {!!csrf_field()!!}
+                        <input class="btn btn-default" type="number" min="0" max="50" name="descuento" placeholder="DESC %" style="width: 105px;">
+                    </form>
+                    @else
+                        <label class="btn btn-default">DESC ${{ $order->descuento }}</label>
+                    @endif
+                @else
+                    <label class="btn btn-danger">DESC ${{ $order->descuento }}</label>
+                @endif
+            </div>
+            <div style="margin-top: 3px; margin-left: 5px;">
+                <label class="btn btn-warning">MONTO ${{ $order->monto - $order->descuento }}</label>
+            </div>
+        </div>
+ <!-- ACA EMPIEZA EL PROCESADOR DE PAGOS-->
+             <div class="modal-footer" style="display: flex; margin-top: 0px;">
+            <h4 style="margin-top: 10px;color: darkviolet;" class="mt-2 mb-3">{{ $pie }}</h4>
+              <div class="form-group " style="padding-left: 0px;">
+                           
+                            <select class="form-control text-uppercase" name="id_forma_pago" value="{{ old('id_forma_pago') }}">
+                                @foreach($formasPago as $formaPago)
+                                    <option value="{{$formaPago->id}}">{{$formaPago->nombre}}</option>
+                                @endforeach
+                            </select>
+   </div>
+            <div style="margin-top: 2px; margin-left: auto;">
+                @if($order->completada != 1)
+                    <form method="POST" action="/admin/control/{{$tipo}}/cerrar/{{ $id_order }}">
+                    {!!csrf_field()!!}
+                        @if($order->id_forma_pago == 3)
+                        <input required class="btn btn-default" type="number" min="0" name="pago_efec" placeholder="Efectivo" style="width: 105px;">
+                        <input required class="btn btn-default" type="number" min="0" name="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
+                        @endif
+                        <input type="hidden" class="form-control" name="completada" value="1">
+                        <button type="submit" class="btn btn-danger" style="width: 98px;margin-right: 5px;">Terminar</button>
+                    </form>
+                @endif
+            </div>
+            {{-- -------------------  Cerrar  ------------------ --}}
+        </div>
     @endif
 @endsection

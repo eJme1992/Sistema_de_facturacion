@@ -14,7 +14,7 @@ class AddIdFormaPagoToOrders extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->integer('id_forma_pago')->after('id_type')->unsigned();
+            $table->integer('id_forma_pago')->after('id_type')->unsigned()->nullable();
         });
     }
 

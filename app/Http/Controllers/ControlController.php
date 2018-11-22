@@ -379,6 +379,7 @@ class ControlController extends Controller
 
             return view('control.ingresos.index', compact('titulo', 'tipo', 'empleados', 'clientes', 'formasPago', 'id_type', 'orders'));
         }
+
         else
         {
             return view('control.cajaCerrada');
@@ -420,7 +421,7 @@ class ControlController extends Controller
             'id_empleado' => $request['id_empleado'],
             'id_cliente' => $request['id_cliente'],
             'id_type' => $request['id_type'],
-            'id_forma_pago' => $request['id_forma_pago'],
+            // 'id_forma_pago' => $request['id_forma_pago'], // EFECTIVO TARJETA O AMBAS
             'monto' => $request['monto'],
             'pago_efec' => $request['pago_efec'],
             'pago_tarj' => $request['pago_tarj'],
@@ -449,6 +450,7 @@ class ControlController extends Controller
 
     public function subordenes($id_order)
     {
+        $formasPago = \DB::table('formas_pago')->select('id', 'nombre')->get();
         if (\Request::is('*/productos/*'))
         {
             $tipo = "productos";
@@ -469,16 +471,16 @@ class ControlController extends Controller
         {
             $empleado = User::find($order->id_empleado)->nombre;
             $cliente = User::find($order->id_cliente)->nombre;
-            $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
+           // $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
             $subtitulo = "Cliente: " . strtoupper($cliente) . " | Atendió: " . strtoupper($empleado);
 
             if ($order->completada == 0 || $order->id_forma_pago != 3)
             {
-                $pie = "Forma de pago: " . strtoupper($formaPago);
+                $pie = "Forma de pago: "; //. strtoupper($formaPago);
             }
             else
             {
-                $pie = "Forma de pago: " . strtoupper($formaPago) . " ( $" . $order->pago_efec . " / $" . $order->pago_tarj . " )";
+                $pie = "Forma de pago: " . strtoupper($formaPago) . " ( $" . $order->pago_efec . " / $";// . $order->pago_tarj . " )";
             }
         }
         else
@@ -488,7 +490,7 @@ class ControlController extends Controller
 
         $titulo = "Orden #" . $id_order;
 
-        return view('control.ingresos.create', compact('titulo', 'subtitulo', 'pie', 'tipo', 'id_type', 'id_order', 'order', 'servicios', 'productos', 'orders_indiv'));
+        return view('control.ingresos.create', compact('titulo', 'subtitulo', 'pie', 'tipo', 'id_type', 'id_order', 'order', 'servicios', 'productos', 'orders_indiv','formasPago'));
     }
 
     public function store_suborden(Request $request, $id_order)
