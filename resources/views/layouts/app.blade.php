@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/open-iconic-bootstrap.css') }}" rel="stylesheet">
     
@@ -94,7 +95,9 @@
         -webkit-transform: scale(8); /* Safari 3-8 */
         transform: scale(8); 
     }
-    
+ .ocultar{
+   display: none !important;
+   }
     code {
         font-size: 80%;
     }

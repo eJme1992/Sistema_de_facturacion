@@ -555,6 +555,8 @@ class ControlController extends Controller
     public function cerrar_orden(Request $request, $id_order)
     {
         $order = Order::find($id_order);
+        $order->id_forma_pago = $request->input('id_forma_pago');
+        $order->save();
         $pagado = $order->monto - $order->descuento;
         if ($order->id_forma_pago == 1) {
             \DB::table('orders')->where('id', $id_order)->update(['pago_efec' => $pagado]);

@@ -1,5 +1,4 @@
 <?php $__env->startSection('content3'); ?>
-
     <div style="display: flex;">
         <div>
             <h1 style="margin-top: auto;"><?php echo e($titulo); ?></h1>
@@ -143,7 +142,7 @@
         </table>
 
  <!-- DD-->
- <div style="display: flex;">
+ <div style="display: flex; margin-top:40px">
        <div style="margin-left: auto; margin-top: 3px;">
                 <label class="btn btn-success">TOTAL $<?php echo e($order->monto); ?></label>
             </div>
@@ -168,31 +167,69 @@
         </div>
  <!-- ACA EMPIEZA EL PROCESADOR DE PAGOS-->
              <div class="modal-footer" style="display: flex; margin-top: 0px;">
-            <h4 style="margin-top: 10px;color: darkviolet;" class="mt-2 mb-3"><?php echo e($pie); ?></h4>
+            
+            <div style="margin-top: 2px; margin-left: auto;" class="row col-md-12">
+                <?php if($order->completada != 1): ?>
+                    <form method="POST" action="/admin/control/<?php echo e($tipo); ?>/cerrar/<?php echo e($id_order); ?>">
+                        <div class="col-md-6" style="display: flex; margin-top: 0px;">
+                        <h4 style="margin-top: 10px;color: darkviolet; display:" class="mt-2 mb-3"><?php echo e($pie); ?></h4>
               <div class="form-group " style="padding-left: 0px;">
                            
-                            <select class="form-control text-uppercase" name="id_forma_pago" value="<?php echo e(old('id_forma_pago')); ?>">
+                            <select class="form-control text-uppercase" id="id_forma_pago" name="id_forma_pago" value="<?php echo e(old('id_forma_pago')); ?>">
                                 <?php $__currentLoopData = $formasPago; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $formaPago): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value="<?php echo e($formaPago->id); ?>"><?php echo e($formaPago->nombre); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
-   </div>
-            <div style="margin-top: 2px; margin-left: auto;">
-                <?php if($order->completada != 1): ?>
-                    <form method="POST" action="/admin/control/<?php echo e($tipo); ?>/cerrar/<?php echo e($id_order); ?>">
+                      </div>
+                  </div>
                     <?php echo csrf_field(); ?>
 
-                        <?php if($order->id_forma_pago == 3): ?>
-                        <input required class="btn btn-default" type="number" min="0" name="pago_efec" placeholder="Efectivo" style="width: 105px;">
-                        <input required class="btn btn-default" type="number" min="0" name="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
-                        <?php endif; ?>
+                    <div class="col-md-6">
+                     <div class="ocultar" id="op" style="display: inline;">
+                        <input required disabled="" class="btn btn-default " type="number" min="0" name="pago_efec" id="pago_efec" placeholder="Efectivo" style="width: 105px;">
+                        <input required disabled="" class="btn btn-default" type="number" min="0" name="pago_tarj" id="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
+                      </div>
+                          
                         <input type="hidden" class="form-control" name="completada" value="1">
                         <button type="submit" class="btn btn-danger" style="width: 98px;margin-right: 5px;">Terminar</button>
+                    </div>
                     </form>
                 <?php endif; ?>
             </div>
             
         </div>
     <?php endif; ?>
+
+
+
+
+<script type="text/javascript">
+$( document ).ready(function() {
+ $("#id_forma_pago").change(function (event) {
+   var id = $("#id_forma_pago").find(':selected').val();
+   if(id == 3){
+    $("#pago_efec").prop('disabled', false);
+    $("#pago_tarj").prop('disabled', false);
+   document.getElementById("op").className -= " ocultar";
+
+   }else{
+    $("#pago_efec").prop('disabled', true);
+    $("#pago_tarj").prop('disabled', true);
+   document.getElementById("op").className += " ocultar";
+   
+   }
+  });
+});
+
+
+
+
+
+
+
+
+
+</script>
+
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('control.index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
