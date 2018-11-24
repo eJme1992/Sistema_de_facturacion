@@ -47,15 +47,6 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-md-2" style="padding-left: 0px;">
-                            <label>Forma de pago</label>
-                            <select class="form-control text-uppercase" name="id_forma_pago" value="<?php echo e(old('id_forma_pago')); ?>">
-                                <?php $__currentLoopData = $formasPago; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $formaPago): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($formaPago->id); ?>"><?php echo e($formaPago->nombre); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </select>
-                        </div>
-
                         <input type="hidden" class="form-control text-uppercase" name="id_type" value="<?php echo e($id_type); ?>">
                         <input type="hidden" class="form-control text-uppercase" name="deHoy" value=1>
                         <input type="hidden" class="form-control text-uppercase" name="completada" value=0>
@@ -151,7 +142,7 @@
                     </td>
                     <td><b>$</b> <?php echo e($order->monto - $order->descuento); ?></td>
                     <td><?php echo e(date('d/m/y', strtotime($order->created_at))); ?></td>
-                    <td><?php echo e(date('H:i', strtotime($order->created_at))); ?> <b>hs</b></td>
+                    <td><?php echo e(date('H:i', strtotime($order->created_at))); ?> <b class="text-lowercase" >hs</b></td>
                     <td><a href="/admin/control/ingresos/<?php echo e($tipo); ?>/<?php echo e($order->id); ?>" class="btn btn-success"><span class="oi oi-eye"></span></a></td>
                     <?php if($titulo == "Ingresos por " . $tipo . " del día"): ?>
                         <td>

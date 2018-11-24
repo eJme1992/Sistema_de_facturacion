@@ -11,6 +11,7 @@ class OrderService extends Model
         'id_servicio',
         'detalle',
         'monto',
+        'descuento',
     ];
 
     protected $table = 'orders_services';

@@ -20,6 +20,7 @@ class CreateOrdersServicesTable extends Migration
             $table->integer('id_servicio')->unsigned();
             $table->text('detalle');
             $table->unsignedSmallInteger('monto');
+            $table->integer('descuento');
             $table->timestamps();
         });
     }
