@@ -153,44 +153,87 @@
     <!-- DD-->
     <div style="display: flex; margin-top:40px">
 
-    <div style="margin-top: 3px; margin-left: 5px;">
-        <?php if($order->descuento == 0): ?>
-        <?php if($order->completada == 0): ?>
+        <div style="margin-top: 3px; margin-left: 5px;">
+            <?php if($order->descuento == 0): ?>
+            <?php if($order->completada == 0): ?>
 
 
 <div class="row">
-    <div class="col-md-offset-8">
-<label class="text-success"><h4>Subtotal: $ <?php echo e($order->monto); ?></h4></label>
+    <div class="col-md-12 ">
+        <div class="col-md-12 col-md-offset-12">
+            <table class="table col-md-offset-3">
+                <tr>
+                    <td class="text-right" ><h5>Subtotal: $</h5> </td>
+                    <td class="text-left" ><h5><?php echo e($order->monto); ?></h5></td>
+                </tr>
+                <tr>
+                    <td class="text-right" ><h5 class="text-danger" >Descuento: %</h5> </td>
+                    <td class="text-left" ><h5 class="text-success" >
+                        <form method="POST" action="/admin/control/<?php echo e($tipo); ?>/descuento/<?php echo e($id_order); ?>">
+                            <?php echo csrf_field(); ?>
+
+                            <div class="form-group col-md-4" style="padding-left: 0px;">
+                                <input class="btn btn-default" type="number" min="0" max="50" name="descuento" placeholder="Desc %" value="0" style="width: 70px;">
+                            </div>
+
+                            <div class="form-group col-md-8" >
+                               <button type="submit" class="btn btn-success form-control">Descontar</button>
+                           </div>
+                       </form>
+                   </h5></td>
+               </tr>
+               <tr>
+                <td class="text-right" ><h3>Total: $</h3></td>
+                <td class="text-left" ><h3><?php echo e($order->monto - $order->descuento); ?></h3> </td>
+            </tr>
+        </table>
 
 
-<form method="POST" action="/admin/control/<?php echo e($tipo); ?>/descuento/<?php echo e($id_order); ?>">
-            <?php echo csrf_field(); ?>
-
-            <div class="form-group col-md-6" style="padding-left: 0px;">
-                <label>% Descuento</label>
-                <input class="btn btn-default" type="number" min="0" max="50" name="descuento" placeholder="Desc %" value="0" style="width: 130px;">
-            </div>
-
-            <div class="form-group col-md-6" style="padding-left: 0px;">
-                <label>&nbsp;</label>
-                <button type="submit" class="btn btn-success form-control">Descontar</button>
-            </div>
-        </form>
-
-         <?php else: ?>
-        <label class="btn btn-default">Desc $<?php echo e($order->descuento); ?></label>
+        <?php else: ?>
+        <label class="btn btn-default">Desc % <?php echo e($order->descuento); ?></label>
         <?php endif; ?>
         <?php else: ?>
-        <label class="btn btn-danger">Desc $<?php echo e($order->descuento); ?></label>
+
+        <div class="col-md-12 col-md-offset-12">
+            <div class="col-md-12 col-md-offset-12 ">
+                <table class="table col-md-offset-12">
+                    <tr>
+                        <td class="text-right" ><h5>Subtotal: $</h5> </td>
+                        <td class="text-left" ><h5><?php echo e($order->monto); ?></h5></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right" ><h5 class="text-danger" >Descuento: $ </h5> </td>
+                        <td class="text-left" ><h5 class="text-success" ><?php echo e($order->descuento); ?>
+
+                        </h5></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right" ><h3>Total: $</h3></td>
+                        <td class="text-left" ><h3><?php echo e($order->monto - $order->descuento); ?></h3> </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
         <?php endif; ?>
-<label class="text-info"><h4>Total: $ <?php echo e($order->monto - $order->descuento); ?></h4></label>
-</div>
-</div>
-
-
 
 
     </div>
+
+</div>
+
+
+
+
+
+
+    
+</div>
+
+
+
+
+</div>
 
 
 
@@ -201,7 +244,7 @@
     <div style="margin-top: 2px; margin-left: auto;" class="row col-md-12">
         <?php if($order->completada != 1): ?>
         <form method="POST" action="/admin/control/<?php echo e($tipo); ?>/cerrar/<?php echo e($id_order); ?>">
-            <div class="col-md-6" style="display: flex; margin-top: 0px;">
+            <div class="col-md-6" style="display: flex; margin-top: 0px;margin-top: 15px;">
                 <h4 style="margin-top: 10px;color: darkviolet; display:" class="mt-2 mb-3"><?php echo e($pie); ?></h4>
                 <div class="form-group " style="padding-left: 0px;">
 
@@ -215,13 +258,16 @@
             <?php echo csrf_field(); ?>
 
             <div class="col-md-6">
-             <div class="ocultar" id="op" style="display: inline;">
+             <div class="ocultar" id="op" style="display: inline; margin-bottom:15px; padding-bottom:15px;">
                 <input required disabled="" class="btn btn-default " type="number" min="0" name="pago_efec" id="pago_efec" placeholder="Efectivo" style="width: 105px;">
                 <input required disabled="" class="btn btn-default" type="number" min="0" name="pago_tarj" id="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
+                <input required disabled="" class="btn btn-default" type="number" min="0" name="numero_de_tarjeta" id="numero_de_tarjeta" placeholder="ultimos 4 numeros de la tarjeta" style="width: 105px;">
+
+
             </div>
 
             <input type="hidden" class="form-control" name="completada" value="1">
-            <button type="submit" class="btn btn-danger" style="width: 98px;margin-right: 5px;">Terminar</button>
+            <button type="submit" class="btn btn-danger btn-block" style="width: 98px;margin-right: 5px; margin-top:15px;width: 100%;">Terminar</button>
         </div>
     </form>
     <?php endif; ?>
@@ -240,24 +286,19 @@
        if(id == 3){
         $("#pago_efec").prop('disabled', false);
         $("#pago_tarj").prop('disabled', false);
+        $("#numero_de_tarjeta").prop('disabled', false);
+
         document.getElementById("op").className -= " ocultar";
 
     }else{
         $("#pago_efec").prop('disabled', true);
         $("#pago_tarj").prop('disabled', true);
+        $("#numero_de_tarjeta").prop('disabled', true);
         document.getElementById("op").className += " ocultar";
 
     }
 });
  });
-
-
-
-
-
-
-
-
 
 </script>
 
