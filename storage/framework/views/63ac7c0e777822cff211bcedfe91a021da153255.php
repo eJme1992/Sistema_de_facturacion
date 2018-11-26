@@ -46,7 +46,7 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
-                        
+
                         <input type="hidden" class="form-control text-uppercase" name="id_type" value="<?php echo e($id_type); ?>">
                         <input type="hidden" class="form-control text-uppercase" name="deHoy" value=1>
                         <input type="hidden" class="form-control text-uppercase" name="completada" value=0>
@@ -142,7 +142,7 @@
                     </td>
                     <td><b>$</b> <?php echo e($order->monto - $order->descuento); ?></td>
                     <td><?php echo e(date('d/m/y', strtotime($order->created_at))); ?></td>
-                    <td><?php echo e(date('H:i', strtotime($order->created_at))); ?> <b>hs</b></td>
+                    <td><?php echo e(date('H:i', strtotime($order->created_at))); ?> <b class="text-lowercase" >hs</b></td>
                     <td><a href="/admin/control/ingresos/<?php echo e($tipo); ?>/<?php echo e($order->id); ?>" class="btn btn-success"><span class="oi oi-eye"></span></a></td>
                     <?php if($titulo == "Ingresos por " . $tipo . " del día"): ?>
                         <td>

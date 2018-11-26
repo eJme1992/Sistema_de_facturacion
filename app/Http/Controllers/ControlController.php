@@ -435,6 +435,7 @@ class ControlController extends Controller
             if ($order->completada == 0 || $order->id_forma_pago != 3) {
                 $pie = "Forma de pago: "; //. strtoupper($formaPago);
             } else {
+                $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
                 $pie = "Forma de pago: " . strtoupper($formaPago) . " ( $" . $order->pago_efec . " / $";// . $order->pago_tarj . " )";
             }
         } else {
@@ -509,6 +510,7 @@ class ControlController extends Controller
     {
         $order = Order::find($id_order);
         $order->id_forma_pago = $request->input('id_forma_pago');
+        $order->numero_de_tarjeta = $request->input('numero_de_tarjeta');
         $order->save();
         $pagado = $order->monto - $order->descuento;
         if ($order->id_forma_pago == 1) {

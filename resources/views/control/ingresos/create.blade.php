@@ -209,7 +209,7 @@
     <div style="margin-top: 2px; margin-left: auto;" class="row col-md-12">
         @if($order->completada != 1)
         <form method="POST" action="/admin/control/{{$tipo}}/cerrar/{{ $id_order }}">
-            <div class="col-md-6" style="display: flex; margin-top: 0px;">
+            <div class="col-md-6" style="display: flex; margin-top: 0px;margin-top: 15px;">
                 <h4 style="margin-top: 10px;color: darkviolet; display:" class="mt-2 mb-3">{{ $pie }}</h4>
                 <div class="form-group " style="padding-left: 0px;">
 
@@ -222,13 +222,16 @@
             </div>
             {!!csrf_field()!!}
             <div class="col-md-6">
-             <div class="ocultar" id="op" style="display: inline;">
+             <div class="ocultar" id="op" style="display: inline; margin-bottom:15px; padding-bottom:15px;">
                 <input required disabled="" class="btn btn-default " type="number" min="0" name="pago_efec" id="pago_efec" placeholder="Efectivo" style="width: 105px;">
                 <input required disabled="" class="btn btn-default" type="number" min="0" name="pago_tarj" id="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
+                <input required disabled="" class="btn btn-default" type="number" min="0" name="numero_de_tarjeta" id="numero_de_tarjeta" placeholder="ultimos 4 numeros de la tarjeta" style="width: 105px;">
+
+                
             </div>
 
             <input type="hidden" class="form-control" name="completada" value="1">
-            <button type="submit" class="btn btn-danger" style="width: 98px;margin-right: 5px;">Terminar</button>
+            <button type="submit" class="btn btn-danger btn-block" style="width: 98px;margin-right: 5px; margin-top:15px;width: 100%;">Terminar</button>
         </div>
     </form>
     @endif
@@ -247,11 +250,14 @@
        if(id == 3){
         $("#pago_efec").prop('disabled', false);
         $("#pago_tarj").prop('disabled', false);
+        $("#numero_de_tarjeta").prop('disabled', false);
+        
         document.getElementById("op").className -= " ocultar";
 
     }else{
         $("#pago_efec").prop('disabled', true);
         $("#pago_tarj").prop('disabled', true);
+        $("#numero_de_tarjeta").prop('disabled', true);
         document.getElementById("op").className += " ocultar";
 
     }
