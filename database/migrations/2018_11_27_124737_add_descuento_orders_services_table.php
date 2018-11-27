@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdFormaPagoToOrders extends Migration
+class AddDescuentoOrdersServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddIdFormaPagoToOrders extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->integer('id_forma_pago')->after('id_type')->unsigned();
+        Schema::table('orders_services', function (Blueprint $table) {
+            $table->integer('descuento')->unsigned()->after('monto');
+
         });
     }
 
@@ -25,9 +26,9 @@ class AddIdFormaPagoToOrders extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropForeign('orders_id_forma_pago_foreign');
-            $table->dropColumn('id_forma_pago');
+       Schema::table('orders_services', function (Blueprint $table) {
+            $table->dropColumn('descuento');
+
         });
     }
 }
