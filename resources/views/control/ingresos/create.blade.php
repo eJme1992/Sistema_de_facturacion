@@ -7,7 +7,7 @@
     </div>
     @if($subtitulo != "La orden todavía no existe")
 
-    <div style="margin-top: 3px; margin-left: 5px;">
+    <div style="margin-top: 3px; margin-left: auto;">
         @if($order->completada == 1)
         @if(str_contains(URL::previous(), 'clientes'))
         <a href="{{ URL::previous() }}" class="btn btn-primary"><span class="oi oi-arrow-left"></span> <b>VOLVER</b></a>
@@ -49,7 +49,7 @@
 
             <div class="form-group col-md-2" style="padding-left: 0px;">
                 <label>% Descuento</label>
-                <input required type="number" class="form-control" name="descuento1" value="0">
+                <input required type="number" min="0" max="50" class="form-control" name="descuento1" value="0">
             </div>
 
 
@@ -162,16 +162,17 @@
 --}}
 
 <div class="row">
-    <div class="col-md-12 ">
-        <div class="col-md-12 col-md-offset-12">
-            <table class="table col-md-offset-3">
+    <div class="col-md-12 col-md-offset-3">
+
+            <table class="table col-md-offset-12">
                 <tr>
-                    <td class="text-right" ><h5>Subtotal: $</h5> </td>
-                    <td class="text-left" ><h5>{{ $order->monto }}</h5></td>
+
+                    <td class="text-left" ><h4>Subtotal: </h4> </td>
+                    <td class="text-left" ><h4>$ {{ $order->monto }}</h4></td>
                 </tr>
                 <tr>
-                    <td class="text-right" ><h5 class="text-danger" >Descuento: %</h5> </td>
-                    <td class="text-left" ><h5 class="text-success" >
+                    <td class="text-left" style="vertical-align: middle;"  ><h4 >Descuento: %</h4> </td>
+                    <td class="text-left" ><h4 class="text-success" >
                         <form method="POST" action="/admin/control/{{$tipo}}/descuento/{{ $id_order }}">
                             {!!csrf_field()!!}
                             <div class="form-group col-md-4" style="padding-left: 0px;">
@@ -182,44 +183,67 @@
                                <button type="submit" class="btn btn-success form-control">Descontar</button>
                            </div>
                        </form>
-                   </h5></td>
+                   </h4></td>
                </tr>
                <tr>
-                <td class="text-right" ><h3>Total: $</h3></td>
-                <td class="text-left" ><h3>{{ $order->monto - $order->descuento }}</h3> </td>
+                <td class="text-left" ><h4>Total:</h4></td>
+                <td class="text-left" ><h4>$ {{ $order->monto - $order->descuento }}</h4> </td>
             </tr>
         </table>
 
 
         @else
-        <label class="btn btn-default">Desc % {{ $order->descuento }}</label>
+       <div class="col-md-12 col-md-offset-12">
+
+        <div class="col-md-12 col-md-offset-12">
+
+            <table class="table col-md-offset-12">
+                    <tr>
+                        <td class="text-left" ><h4>Subtotal:</h4> </td>
+                        <td class="text-left" ><h4> $ {{ $order->monto }}</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" style="vertical-align: middle;"   ><h4>Descuento: </h4> </td>
+                        <td class="text-left" ><h4>$ {{ $order->descuento }}
+                        </h4></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left" ><h4>Total: </h4></td>
+                        <td class="text-left" ><h4>$ {{ $order->monto - $order->descuento }}</h4> </td>
+                    </tr>
+                </table>
+
+        </div>
+
+    </div>
         @endif
         @else
 
+    <div class="col-md-12 col-md-offset-12">
+
         <div class="col-md-12 col-md-offset-12">
-            <div class="col-md-12 col-md-offset-12 ">
-                <table class="table col-md-offset-12">
+
+            <table class="table col-md-offset-12">
                     <tr>
-                        <td class="text-right" ><h5>Subtotal: $</h5> </td>
-                        <td class="text-left" ><h5>{{ $order->monto }}</h5></td>
+                        <td class="text-left" ><h4>Subtotal:</h4> </td>
+                        <td class="text-left" ><h4> $ {{ $order->monto }}</h4></td>
                     </tr>
                     <tr>
-                        <td class="text-right" ><h5 class="text-danger" >Descuento: $ </h5> </td>
-                        <td class="text-left" ><h5 class="text-success" >{{ $order->descuento }}
-                        </h5></td>
+                        <td class="text-left" style="vertical-align: middle;"   ><h4>Descuento: </h4> </td>
+                        <td class="text-left" ><h4>$ {{ $order->descuento }}
+                        </h4></td>
                     </tr>
                     <tr>
-                        <td class="text-right" ><h3>Total: $</h3></td>
-                        <td class="text-left" ><h3>{{ $order->monto - $order->descuento }}</h3> </td>
+                        <td class="text-left" ><h4>Total: </h4></td>
+                        <td class="text-left" ><h4>$ {{ $order->monto - $order->descuento }}</h4> </td>
                     </tr>
                 </table>
-            </div>
+
         </div>
 
-        @endif
-
-
     </div>
+
+        @endif
 
 </div>
 
@@ -275,7 +299,7 @@
     <div style="margin-top: 2px; margin-left: auto;" class="row col-md-12">
         @if($order->completada != 1)
         <form method="POST" action="/admin/control/{{$tipo}}/cerrar/{{ $id_order }}">
-            <div class="col-md-6" style="display: flex; margin-top: 0px;margin-top: 15px;">
+            <div class="col-md-6" style="display: flex; margin-top: 15px; margin-left: -8%;">
                 <h4 style="margin-top: 10px;color: darkviolet; display:" class="mt-2 mb-3">{{ $pie }}</h4>
                 <div class="form-group " style="padding-left: 0px;">
 
