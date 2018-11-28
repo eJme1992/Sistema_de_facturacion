@@ -32,7 +32,7 @@
         <tbody>
             @foreach ($users as $user)
                 @if($activos == false)
-                <tr style="background-color: #ff8e8e;">
+                <tr  class="text-uppercase" style="background-color: #ff8e8e;">
                 @else
                 <tr class="text-uppercase" >
                 @endif

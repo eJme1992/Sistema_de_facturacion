@@ -21,10 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', 'AdminController@admin')->middleware('is_admin')->name('admin');
 
-Route::group(['middleware' => 'is_admin'], function () 
+Route::group(['middleware' => 'is_admin'], function ()
 {
     // <-- Servicios -->
-        
+
     Route::get('/admin/servicios', 'ServiceController@index')->name('services.index');
 
     Route::get('/admin/servicios/nuevo', 'ServiceController@create')->name('services.create');
@@ -38,7 +38,7 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::delete('/admin/servicios/{service}', 'ServiceController@delete')->name('services.delete');
 
     // <-- Productos -->
-        
+
     Route::get('/admin/productos', 'ProductController@index')->name('products.index');
 
     Route::post('/admin/productos/filtro', 'ProductController@filter');
@@ -54,7 +54,7 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::delete('/admin/productos/{product}', 'ProductController@delete')->name('products.delete');
 
     // <-- Categorias de productos -->
-        
+
     Route::get('/admin/categorias', 'ProductCategoryController@index')->name('categories.index');
 
     Route::get('/admin/categorias/nueva', 'ProductCategoryController@create')->name('categories.create');
@@ -68,7 +68,7 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::delete('/admin/categorias/{category}', 'ProductCategoryController@delete')->name('categories.delete');
 
     // <-- Control -->
-        
+
     Route::get('/admin/control/', 'ControlController@inicio')->name('control.caja.inicio');
 
     Route::get('/admin/control/caja/inicio', 'ControlController@inicio')->name('control.caja.inicio');
@@ -76,7 +76,7 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::get('/admin/control/caja/cierre/', 'ControlController@cierre')->name('control.caja.cierre');
 
     Route::post('/admin/control/', 'ControlController@store');
-    
+
     Route::delete('/admin/control/{id}', 'ControlController@delete')->name('control.delete');
 
     Route::get('/admin/control/caja/retiros', 'ControlController@retiros')->name('control.caja.retiros');
@@ -120,12 +120,22 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::post('/admin/control/ingresos/servicios/historial', 'ControlController@historial_ordenes');
     //---DESCUENTO en ORDEN---//
     Route::post('/admin/control/productos/descuento/{id_order}', 'ControlController@descuento_orden');
-    
+
     Route::post('/admin/control/servicios/descuento/{id_order}', 'ControlController@descuento_orden');
+
+    Route::post('/admin/control/productos/descuento/{id_order}', 'ControlController@descuento_orden');
+
+    // ELIMINAR DESCUENTO EN ORDEN
+
+    Route::post('/admin/control/servicios/{id_order}', 'ControlController@eliminar_descuento_orden');
+
+    Route::post('/admin/control/productos/{id_order}', 'ControlController@eliminar_descuento_orden');
+
+
     //-----------FIN----------//
     //---CERRAR ORDEN---//
     Route::post('/admin/control/productos/cerrar/{id_order}', 'ControlController@cerrar_orden');
-    
+
     Route::post('/admin/control/servicios/cerrar/{id_order}', 'ControlController@cerrar_orden');
     //-----------FIN----------//
     Route::get('/admin/control/ingresos/productos/{id_order}', 'ControlController@subordenes')->name('control.ingresos.productos.agregar');
@@ -173,7 +183,7 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::post('/admin/control/movimientos/historial', 'ControlController@historial_movimientos');
 
     // <-- Usuarios -->
-        
+
     Route::get('/admin/{type}s', 'UserController@index')->name('users.index');
 
     Route::get('/admin/{type}s/papelera', 'UserController@papelera');
@@ -195,5 +205,5 @@ Route::group(['middleware' => 'is_admin'], function ()
     Route::get('/admin/clientes/{nombre}/historial', 'UserController@record')->name('users.record');
 
     Route::post('/admin/clientes/{nombre}/historial', 'UserController@historial_record');
-    
+
 });

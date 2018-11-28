@@ -13,16 +13,19 @@ use App\Service;
 use App\Product;
 use \App\FormaPago;
 use Carbon;
+use DB;
+
 
 class ControlController extends Controller
 {
+
     public function inicio()
     {
         $caja_abierta = \DB::table('controls')->where('caja_abierta', 1)->where('id_desc', 1)->exists();
 
         $controls = Control::where('id_desc', 1)
-                    ->where('caja_abierta', 1)
-                    ->get();
+        ->where('caja_abierta', 1)
+        ->get();
         $titulo = "Caja inicial";
 
         return view('control.caja.inicio', compact('controls', 'titulo', 'caja_abierta'));
@@ -31,12 +34,12 @@ class ControlController extends Controller
     public function cierre()
     {
         \DB::table('controls')
-            ->where('caja_abierta', 1)
-            ->update(['caja_abierta' => 0]);
+        ->where('caja_abierta', 1)
+        ->update(['caja_abierta' => 0]);
 
-            \DB::table('orders')
-            ->where('deHoy', 1)
-            ->update(['deHoy' => 0]);
+        \DB::table('orders')
+        ->where('deHoy', 1)
+        ->update(['deHoy' => 0]);
 
         return redirect()->route('control.caja.inicio');
     }
@@ -46,9 +49,9 @@ class ControlController extends Controller
         $caja_abierta = \DB::table('controls')->where('caja_abierta', 1)->exists();
         if ($caja_abierta) {
             $controls = \DB::table('controls')
-                    ->where('caja_abierta', 1)
-                    ->where('id_desc', '=', 6)
-                    ->get();
+            ->where('caja_abierta', 1)
+            ->where('id_desc', '=', 6)
+            ->get();
 
             $titulo = "Retiros del día";
             return view('control.caja.retiros', compact('controls', 'titulo'));
@@ -62,9 +65,9 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', 6)
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', 6)
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -96,9 +99,9 @@ class ControlController extends Controller
             }
 
             $controls = \DB::table('controls')
-                        ->where('caja_abierta', 1)
-                        ->where('id_desc', '=', $id_desc)
-                        ->get();
+            ->where('caja_abierta', 1)
+            ->where('id_desc', '=', $id_desc)
+            ->get();
 
             $titulo = "Gastos de " . $nombre . " del día";
 
@@ -131,9 +134,9 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -164,9 +167,9 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -182,10 +185,10 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->where('detalle', 'like', '%'.$nombre.'%')
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->where('detalle', 'like', '%'.$nombre.'%')
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -232,9 +235,9 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -250,10 +253,10 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->where('detalle', 'like', '%'.$nombre.'%')
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->where('detalle', 'like', '%'.$nombre.'%')
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -297,9 +300,9 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -315,10 +318,10 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $controls = \DB::table('controls')
-                    ->where('id_desc', '=', $id_desc)
-                    ->where('detalle', 'like', '%'.$nombre.'%')
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_desc', '=', $id_desc)
+        ->where('detalle', 'like', '%'.$nombre.'%')
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
 
         $desde = date('d/m/y', strtotime($desde));
         $hasta = date('d/m/y', strtotime($hasta));
@@ -363,9 +366,9 @@ class ControlController extends Controller
         $desde = $request->desde;
         $hasta = $request->hasta;
         $orders = \DB::table('orders')
-                    ->where('id_type', '=', $id_type)
-                    ->whereBetween('created_at', [$desde, $hasta])
-                    ->get();
+        ->where('id_type', '=', $id_type)
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->get();
         //dd($orders);
         $empleados = \DB::table('users')->select('id', 'nombre', 'activo')->where('id_uType', "!=", 3)->orderBy('nombre')->get();
         $clientes = \DB::table('users')->select('id', 'nombre')->where('id_uType', 3)->orderBy('nombre')->get();
@@ -382,31 +385,31 @@ class ControlController extends Controller
     {
         $order = Order::create([
             'id_empleado' => $request['id_empleado'],
-            'id_cliente' => $request['id_cliente'],
-            'id_type' => $request['id_type'],
+            'id_cliente'  => $request['id_cliente'],
+            'id_type'     => $request['id_type'],
             // 'id_forma_pago' => $request['id_forma_pago'], // EFECTIVO TARJETA O AMBAS
-            'monto' => $request['monto'],
-            'pago_efec' => $request['pago_efec'],
-            'pago_tarj' => $request['pago_tarj'],
-            'descuento' => $request['descuento'],
-            'completada' => $request['completada'],
-            'deHoy' => $request['deHoy']
+            'monto'       => $request['monto'],
+            'pago_efec'   => $request['pago_efec'],
+            'pago_tarj'   => $request['pago_tarj'],
+            'descuento'   => $request['descuento'],
+            'completada'  => $request['completada'],
+            'deHoy'       => $request['deHoy']
         ]);
 
         $id_order = $order->id;
 
         switch ($request['id_type']) {
             case '1':
-                return redirect()->route('control.ingresos.productos.agregar', compact('id_order'));
-                break;
+            return redirect()->route('control.ingresos.productos.agregar', compact('id_order'));
+            break;
 
             case '2':
-                return redirect()->route('control.ingresos.servicios.agregar', compact('id_order'));
-                break;
+            return redirect()->route('control.ingresos.servicios.agregar', compact('id_order'));
+            break;
 
             default:
                 # code...
-                break;
+            break;
         }
     }
 
@@ -491,13 +494,30 @@ class ControlController extends Controller
 
     public function descuento_orden(Request $request, $id_order)
     {
-        // $descuento = $request->descuento;
         $descuento  = $request['descuento'];
         $order      = Order::find($id_order);
         $monto      = $order->monto;
-        $descuento  = $monto * ($descuento /100);
+
 
         \DB::table('orders')->where('id', $id_order)->update(['descuento' => $descuento]);
+
+        if (\Request::is('*/productos/*')) {
+            return redirect()->route('control.ingresos.productos.agregar', compact('id_order'));
+        } else if (\Request::is('*/servicios/*')) {
+            return redirect()->route('control.ingresos.servicios.agregar', compact('id_order'));
+        }
+    }
+
+
+    public function eliminar_descuento_orden(Request $request, $id_order)
+    {
+        // $descuento = $request->descuento;
+        // $descuento  = $request['descuento'];
+        $order      = Order::find($id_order);
+        $monto      = $order->monto;
+        $descuento  = 0;
+
+        \DB::table('orders')->where('id', $id_order)->update(['monto'=>$monto,'descuento' => $descuento]);
 
         if (\Request::is('*/productos/*')) {
             return redirect()->route('control.ingresos.productos.agregar', compact('id_order'));
@@ -533,57 +553,57 @@ class ControlController extends Controller
     public function store(Request $request)
     {
         Control::create([
-            'admin' => $request['admin'],
-            'monto' => $request['monto'],
-            'id_desc' => $request['id_desc'],
-            'detalle' => $request['detalle'],
+            'admin'        => $request['admin'],
+            'monto'        => $request['monto'],
+            'id_desc'      => $request['id_desc'],
+            'detalle'      => $request['detalle'],
             'caja_abierta' => $request['caja_abierta']
         ]);
 
         switch ($request['id_desc']) {
             case '1':
-                return redirect()->route('control.caja.inicio');
-                break;
+            return redirect()->route('control.caja.inicio');
+            break;
 
             case '2':
-                return redirect()->route('control.comisiones')->with('message', 'La comisión fue pagada correctamente.');
-                break;
+            return redirect()->route('control.comisiones')->with('message', 'La comisión fue pagada correctamente.');
+            break;
 
             case '3':
-                return redirect()->route('control.gastos.limpieza');
-                break;
+            return redirect()->route('control.gastos.limpieza');
+            break;
 
             case '4':
-                return redirect()->route('control.gastos.servicios');
-                break;
+            return redirect()->route('control.gastos.servicios');
+            break;
 
             case '5':
-                return redirect()->route('control.sueldos')->with('message', 'El sueldo fue pagado correctamente.');
-                break;
+            return redirect()->route('control.sueldos')->with('message', 'El sueldo fue pagado correctamente.');
+            break;
 
             case '6':
-                return redirect()->route('control.caja.retiros');
-                break;
+            return redirect()->route('control.caja.retiros');
+            break;
 
             case '7':
-                return redirect()->route('control.gastos.mercaderias');
-                break;
+            return redirect()->route('control.gastos.mercaderias');
+            break;
 
             case '8':
-                return redirect()->route('control.adelantos')->with('message', 'El adelanto fue pagado correctamente.');
-                break;
+            return redirect()->route('control.adelantos')->with('message', 'El adelanto fue pagado correctamente.');
+            break;
 
             case '9':
-                return redirect()->route('control.gastos.comida');
-                break;
+            return redirect()->route('control.gastos.comida');
+            break;
 
             case '10':
-                return redirect()->route('control.gastos.contador');
-                break;
+            return redirect()->route('control.gastos.contador');
+            break;
 
             default:
                 # code...
-                break;
+            break;
         }
     }
 
@@ -597,48 +617,48 @@ class ControlController extends Controller
     public function movimientos()
     {
         $caja_inicial = Control::where('id_desc', 1)
-                        ->where('caja_abierta', 1)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('caja_abierta', 1)
+        ->value(\DB::raw("sum(monto)")) + 0;
         //dd($caja_inicial);
         $ingXprod_efec = Order::where('deHoy', 1)
-                        ->where('id_type', 1)
-                        ->value(\DB::raw("sum(pago_efec)")) + 0;
+        ->where('id_type', 1)
+        ->value(\DB::raw("sum(pago_efec)")) + 0;
         $ingXprod_tarj = Order::where('deHoy', 1)
-                        ->where('id_type', 1)
-                        ->value(\DB::raw("sum(pago_tarj)")) + 0;
+        ->where('id_type', 1)
+        ->value(\DB::raw("sum(pago_tarj)")) + 0;
         $ingXserv_efec = Order::where('deHoy', 1)
-                        ->where('id_type', 2)
-                        ->value(\DB::raw("sum(pago_efec)")) + 0;
+        ->where('id_type', 2)
+        ->value(\DB::raw("sum(pago_efec)")) + 0;
         $ingXserv_tarj = Order::where('deHoy', 1)
-                        ->where('id_type', 2)
-                        ->value(\DB::raw("sum(pago_tarj)")) + 0;
+        ->where('id_type', 2)
+        ->value(\DB::raw("sum(pago_tarj)")) + 0;
         $gastXlimp = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 3)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 3)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXserv = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 4)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 4)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXmerc = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 7)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 7)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXcomi = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 9)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 9)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXcont = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 10)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 10)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $retiros = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 6)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 6)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $sueldos = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 5)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 5)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $comisiones = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 2)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 2)
+        ->value(\DB::raw("sum(monto)")) + 0;
         $adelantos = Control::where('caja_abierta', 1)
-                        ->where('id_desc', 8)
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->where('id_desc', 8)
+        ->value(\DB::raw("sum(monto)")) + 0;
 
         $total_efec = $caja_inicial + $ingXprod_efec + $ingXserv_efec - $gastXlimp - $gastXserv - $gastXmerc - $gastXcomi - $gastXcont - $retiros - $sueldos - $comisiones - $adelantos;
         $total_tarj = $ingXprod_tarj + $ingXserv_tarj;
@@ -654,48 +674,48 @@ class ControlController extends Controller
         $hasta = date('Y/m/d 06:00:00', strtotime($request->hasta));
         //dd($desde);
         $caja_inicial = Control::where('id_desc', 1)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         //dd($caja_inicial);
         $ingXprod_efec = Order::where('id_type', 1)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(pago_efec)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(pago_efec)")) + 0;
         $ingXprod_tarj = Order::where('id_type', 1)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(pago_tarj)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(pago_tarj)")) + 0;
         $ingXserv_efec = Order::where('id_type', 2)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(pago_efec)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(pago_efec)")) + 0;
         $ingXserv_tarj = Order::where('id_type', 2)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(pago_tarj)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(pago_tarj)")) + 0;
         $gastXlimp = Control::where('id_desc', 3)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXserv = Control::where('id_desc', 4)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXmerc = Control::where('id_desc', 7)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXcomi = Control::where('id_desc', 9)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $gastXcont = Control::where('id_desc', 10)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $retiros = Control::where('id_desc', 6)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $sueldos = Control::where('id_desc', 5)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $comisiones = Control::where('id_desc', 2)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
         $adelantos = Control::where('id_desc', 8)
-                        ->whereBetween('created_at', [$desde, $hasta])
-                        ->value(\DB::raw("sum(monto)")) + 0;
+        ->whereBetween('created_at', [$desde, $hasta])
+        ->value(\DB::raw("sum(monto)")) + 0;
 
         $total_efec = $caja_inicial + $ingXprod_efec + $ingXserv_efec - $gastXlimp - $gastXserv - $gastXmerc - $gastXcomi - $gastXcont - $retiros - $sueldos - $comisiones - $adelantos;
         $total_tarj = $ingXprod_tarj + $ingXserv_tarj;
