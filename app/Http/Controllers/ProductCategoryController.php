@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProductCategory;
 use Illuminate\Http\Request;
+use Facturar;
 
 class ProductCategoryController extends Controller
 {
@@ -12,6 +13,11 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+       public function __construct()
+    {
+        Facturar::facturar();
+    }
+    
     public function index()
     {
         $categories = ProductCategory::all();

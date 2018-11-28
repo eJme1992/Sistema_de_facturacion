@@ -8,6 +8,7 @@ use App\ProductCategory;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Facturar;
 
 class ProductController extends Controller
 {
@@ -16,6 +17,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+        public function __construct()
+    {
+        Facturar::facturar();
+    }
+    
     public function index()
     {
         $barra = new DNS1D();

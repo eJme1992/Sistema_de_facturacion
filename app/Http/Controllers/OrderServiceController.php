@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\OrderService;
 use Illuminate\Http\Request;
+use App\Facturar;
 
 class OrderServiceController extends Controller
 {
@@ -12,6 +13,11 @@ class OrderServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+      public function __construct()
+    {
+        Facturar::facturar();
+    }
+    
     public function index()
     {
         //

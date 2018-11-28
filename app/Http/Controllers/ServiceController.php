@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Service;
+use App\Facturar;
 
 class ServiceController extends Controller
 {
@@ -12,6 +13,11 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+        public function __construct()
+    {
+        Facturar::facturar();
+    }
+    
     public function index()
     {
         $services = Service::all();

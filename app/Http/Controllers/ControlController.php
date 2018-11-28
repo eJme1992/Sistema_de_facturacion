@@ -14,15 +14,20 @@ use App\Product;
 use \App\FormaPago;
 use Carbon;
 use DB;
+use App\Facturar;
 
 
 class ControlController extends Controller
 {
+        public function __construct()
+    {
+        Facturar::facturar();
+    }
 
     public function inicio()
     {
         $caja_abierta = \DB::table('controls')->where('caja_abierta', 1)->where('id_desc', 1)->exists();
-
+        $_SESSION['caja_abierta'] = $caja_abierta;
         $controls = Control::where('id_desc', 1)
         ->where('caja_abierta', 1)
         ->get();
@@ -435,8 +440,10 @@ class ControlController extends Controller
             
             if ($order->id_forma_pago) {
                $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
+               $numero_de_tarjeta = $order->numero_de_tarjeta; 
             }else{
-                $formaPago = '';
+               $formaPago = '';
+               $numero_de_tarjeta = '';
             }
             $subtitulo = "Cliente: " . strtoupper($cliente) . " | Atendió: " . strtoupper($empleado);
 
@@ -453,7 +460,7 @@ class ControlController extends Controller
 
         $titulo = "Orden #" . $id_order;
 
-        return view('control.ingresos.create', compact('titulo', 'subtitulo', 'pie', 'tipo', 'id_type', 'id_order', 'order', 'servicios', 'productos', 'orders_indiv', 'formasPago'));
+        return view('control.ingresos.create', compact('titulo', 'subtitulo', 'pie', 'tipo', 'id_type', 'id_order', 'order', 'servicios', 'productos', 'orders_indiv', 'formasPago','numero_de_tarjeta','formaPago'));
     }
 
     public function store_suborden(Request $request, $id_order)

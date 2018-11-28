@@ -14,6 +14,7 @@
         <?php endif; ?>
     </div>
     <?php endif; ?>
+  
 </div>
 <p>
     <h4 class="mt-2 mb-3"><?php echo e($subtitulo); ?></h4>
@@ -70,6 +71,15 @@
     </p>
 </div>
 <p></p>
+  <?php if($order->completada==1): ?> 
+    <div style="width:100%">
+    <h4 style="margin-top: 10px;color: darkviolet; display:" class="mt-2 mb-3"><?php echo e($pie); ?></h4>
+    <?php if($formaPago != 'Efectivo'): ?> 
+     <h4> <p>Tarjeta <b>N°</b>: <?php echo e($numero_de_tarjeta); ?> </p></h4>
+    <?php endif; ?>
+</div>
+
+    <?php endif; ?>
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -252,9 +262,12 @@
 
             <div class="col-md-6">
                 <div class="ocultar" id="op" style="display: inline; margin-bottom:15px; padding-bottom:15px;">
-                    <input required disabled="" class="btn btn-default " type="number" min="0" name="pago_efec" id="pago_efec" placeholder="Efectivo" style="width: 105px;">
-                    <input required disabled="" class="btn btn-default" type="number" min="0" name="pago_tarj" id="pago_tarj" placeholder="Tarjeta" style="width: 105px;">
-                    <input required disabled="" class="btn btn-default" type="number" min="0" name="numero_de_tarjeta" id="numero_de_tarjeta" placeholder="ultimos 4 numeros de la tarjeta" style="width: 105px;">
+                    <input required disabled="" class="btn btn-default " type="number" min="0" name="pago_efec" id="pago_efec" placeholder="Efectivo" style="width: 49.5%;">
+                    <input required disabled="" class="btn btn-default" type="number" min="0" name="pago_tarj" id="pago_tarj" placeholder="Tarjeta" style="width: 48%;">
+                 
+                </div>
+                <div class="ocultar" id='op2'>
+                       <input required disabled="" class="btn btn-default" type="number"  min="0" name="numero_de_tarjeta" id="numero_de_tarjeta" placeholder="ultimos 4 numeros de la tarjeta" style="width: 100%;">
                 </div>
                 <input type="hidden" class="form-control" name="completada" value="1">
                 <button type="submit" class="btn btn-danger btn-block" style="width: 98px;margin-right: 5px; margin-top:15px;width: 100%;">Terminar</button>
@@ -272,15 +285,31 @@ var id = $("#id_forma_pago").find(':selected').val();
 if(id == 3){
 $("#pago_efec").prop('disabled', false);
 $("#pago_tarj").prop('disabled', false);
+
 $("#numero_de_tarjeta").prop('disabled', false);
+document.getElementById("op2").className -= " ocultar";
 document.getElementById("op").className -= " ocultar";
 }else{
 $("#pago_efec").prop('disabled', true);
 $("#pago_tarj").prop('disabled', true);
+if(id == 1){
 $("#numero_de_tarjeta").prop('disabled', true);
+document.getElementById("op2").className += " ocultar";
+}
 document.getElementById("op").className += " ocultar";
 }
+if (id == 2) {
+  $("#numero_de_tarjeta").prop('disabled', false);
+  document.getElementById("op2").className -= " ocultar";
+}
 });
+ $('input#numero_de_tarjeta')
+    .keypress(function (event) {
+      if (this.value.length > 3) {
+        $('#numero_de_tarjeta').val('');
+        alert('Deben ser solo los 4 ultimos numeros de la tarjeta');
+      }
+    });
 });
 </script>
 <?php $__env->stopSection(); ?>

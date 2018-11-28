@@ -8,6 +8,7 @@ use App\UserType;
 use Carbon;
 use App\Http\Requests\UserFormRequest;
 use DB;
+use App\Facturar;
 
 class UserController extends Controller
 {
@@ -16,6 +17,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+  
+       public function __construct()
+    {
+        Facturar::facturar();
+    }
+
     public function index($type)
     {
         $id_uType = UserType::where('nombre', $type)->first()->id;
