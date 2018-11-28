@@ -432,14 +432,20 @@ class ControlController extends Controller
         if ($order!=null) {
             $empleado = User::find($order->id_empleado)->nombre;
             $cliente = User::find($order->id_cliente)->nombre;
-           // $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
+            
+            if ($order->id_forma_pago) {
+               $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
+            }else{
+                $formaPago = '';
+            }
             $subtitulo = "Cliente: " . strtoupper($cliente) . " | Atendió: " . strtoupper($empleado);
 
             if ($order->completada == 0 || $order->id_forma_pago != 3) {
-                $pie = "Forma de pago: "; //. strtoupper($formaPago);
+                $pie = "Forma de pago: ". strtoupper($formaPago);
             } else {
                 $formaPago = FormaPago::find($order->id_forma_pago)->nombre;
-                $pie = "Forma de pago: " . strtoupper($formaPago) . " ( $" . $order->pago_efec . " / $";// . $order->pago_tarj . " )";
+                $pie = "Forma de pago: ".strtoupper($formaPago) 
+                . " ( $" . $order->pago_efec . " / $". $order->pago_tarj . " )";
             }
         } else {
             $subtitulo = "La orden todavía no existe";

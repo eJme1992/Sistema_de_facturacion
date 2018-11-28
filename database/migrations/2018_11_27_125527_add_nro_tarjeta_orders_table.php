@@ -14,7 +14,7 @@ class AddNroTarjetaOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->integer('numero_de_tarjeta')->unsigned()->after('pago_tarj');
+            $table->integer('numero_de_tarjeta')->unsigned()->after('pago_tarj')->nullable();
 
         });
     }
