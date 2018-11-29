@@ -30,7 +30,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/admin/control">Control</a>
                             </li>
-                            <?php $caja_abierta = $_SESSION['caja_abierta']; ?>
+                <?php 
+            if(isset($caja_abierta)){
+                $caja_abierta = $_SESSION['caja_abierta'];}
+                else{
+                    $caja_abierta = 0;
+                } ?>
                            
                            <?php if($caja_abierta==1): ?>
                             <li class="nav-item">
@@ -72,7 +77,7 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Facturar</h4>
         </div>
-        <div class="modal-body row">
+        <div class="modal-body row" style="margin-top:0px;">
             <div class="col-md-12">
               <form method="POST" action="/admin/control/ingresos/<?php echo e($tipo); ?>">
                         <?php echo csrf_field(); ?>
@@ -116,7 +121,7 @@
                 </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
