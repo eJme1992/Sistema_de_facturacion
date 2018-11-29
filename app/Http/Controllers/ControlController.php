@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use App\Facturar;
 use App\Control;
 use App\User;
 use App\Order;
@@ -14,12 +15,11 @@ use App\Product;
 use \App\FormaPago;
 use Carbon;
 use DB;
-use App\Facturar;
 
 
 class ControlController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
         Facturar::facturar();
     }
