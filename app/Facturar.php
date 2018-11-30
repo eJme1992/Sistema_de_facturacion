@@ -1,10 +1,17 @@
 <?php
+
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
-class Facturar extends Model {
-    static function facturar() {
+
+class Facturar extends Model 
+{
+    static function facturar() 
+    {
         $caja_abierta = \DB::table('controls')->where('caja_abierta', 1)->exists();
-        if ($caja_abierta) {
+        
+        if ($caja_abierta) 
+        {
             $tipo = "servicios";
             $id_type = 2;
             $empleados = \DB::table('users')->select('id', 'nombre', 'activo')->where([['id_uType', "!=", 3], ['id', "!=", 1], ])->orderBy('nombre')->get();
@@ -18,3 +25,4 @@ class Facturar extends Model {
         }
     }
 }
+//hola
