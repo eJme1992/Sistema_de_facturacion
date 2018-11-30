@@ -32,7 +32,7 @@ class ControlController extends Controller
         ->where('caja_abierta', 1)
         ->get();
         $titulo = "Caja inicial";
-
+        //prueba
         return view('control.caja.inicio', compact('controls', 'titulo', 'caja_abierta'));
     }
 
