@@ -6,6 +6,7 @@ use App\Order;
 use App\OrderProduct;
 use Illuminate\Http\Request;
 use App\Facturar;
+
 class OrderController extends Controller
 {
     /**

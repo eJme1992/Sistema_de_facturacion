@@ -35,7 +35,7 @@
                                 <a class="nav-link" href="/admin/control">Control</a>
                             </li>
                 <?php 
-            if(isset($caja_abierta)){
+            if(isset($_SESSION['caja_abierta'])){
                 $caja_abierta = $_SESSION['caja_abierta'];}
                 else{
                     $caja_abierta = 0;
