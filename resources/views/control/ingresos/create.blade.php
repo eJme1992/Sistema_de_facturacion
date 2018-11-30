@@ -28,7 +28,7 @@
             {!!csrf_field()!!}
             {{--  Servicios    --}}
             @if($id_type == 2)
-            <div class="form-group col-md-3" style="padding-left: 0px;">
+            <div class="form-group col-md-5" style="padding-left: 0px;">
                 <label>Servicio</label>
                 <select class="form-control text-uppercase" name="id_servicio" value="{{ old('id_servicio') }}">
                     @foreach($servicios as $servicio)
@@ -36,7 +36,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-5" style="padding-left: 0px;">
+            <div class="form-group col-md-3" style="padding-left: 0px;">
                 <label>Detalle</label>
                 <input required type="text" maxlength="100" class="form-control text-uppercase" name="detalle" value="{{ old('detalle') }}">
             </div>
@@ -91,7 +91,9 @@
             <th scope="col">Cant.</th>
             @endif
             <th scope="col">Monto</th>
+            @if($id_type == 2)
             <th scope="col">% Desc.</th>
+            @endif
             <th scope="col">Fecha</th>
             <th scope="col">Hora</th>
             @if($order->completada != 1)
@@ -124,7 +126,9 @@
             <td>{{ $orderind->cantidad }}</td>
             @endif
             <td><b>$</b> {{ $orderind->monto }}</td>
+            @if($id_type == 2)
             <td> {{ $orderind->descuento }}<b>%</b></td>
+            @endif
             <td>{{ date('d/m/y', strtotime($orderind->created_at)) }}</td>
             <td>{{ date('H:i', strtotime($orderind->created_at)) }} <b class="text-lowercase" >hs</b></td>
             @if($order->completada != 1)
@@ -190,18 +194,25 @@
                                     <td class="text-left" ><h4> $ {{ $order->monto }}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td class="text-left" style="vertical-align: middle;"   ><h4>Descuento: </h4> </td>
-                                    <td class="text-left" ><h4>$ {{ $order->descuento }}
-                                    </h4> </span>
-                                </button></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left" ><h4>Total: </h4></td>
-                                <td class="text-left" ><h4>$ {{ $order->monto - $order->descuento }}</h4> </td>
-                            </tr>
-                        </table>
+                                    <td class="text-left" style="vertical-align: middle;">
+                                        <h4>Descuento: </h4>
+                                    </td>
+                                    <td class="text-left">
+                                        <h4>$ {{ $order->descuento }}</h4>
+                                    </span>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left">
+                                        <h4>Total: </h4>
+                                    </td>
+                                    <td class="text-left">
+                                        <h4>$ {{ $order->monto - $order->descuento }}</h4>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                </div>
                 @endif
                 @else
                 <div class="col-md-12 col-md-offset-6">
@@ -213,23 +224,24 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td class="text-left" style="vertical-align: middle;"   ><h4>{{ $order->descuento }}% OFF Descuento: </h4> </td>
-                                <td class="text-left" ><h4>$ {{ ceil(($order->monto * ($order->descuento /100))) }}
-                                </h4> </td>
-                                <td style="vertical-align: middle;">
-                                    <form method="POST" action="/admin/control/{{$tipo}}/{{ $id_order }}">
-                                        {!!csrf_field()!!}
-
-                                        <button class="btn btn-danger" type="submit">
-                                        <span class="oi oi-trash"></span>
-                                        </button>
-
-                                    </form>
+                                <td class="text-left" style="vertical-align: middle;">
+                                    <h4>{{ $order->descuento }}% OFF Descuento: </h4>
                                 </td>
+                                <td class="text-left">
+                                    <h4>$ {{ ceil(($order->monto * ($order->descuento /100))) }}</h4>
+                                </td>
+                                @if($order->completada != 1)
+                                    <td style="vertical-align: middle;">
+                                        <form method="POST" action="/admin/control/{{$tipo}}/{{ $id_order }}">
+                                            {!!csrf_field()!!}
+                                            <button class="btn btn-danger" type="submit"><span class="oi oi-trash"></span></button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                             <tr>
                                 <td class="text-left" ><h4>Total: </h4></td>
-                                <td class="text-left" ><h4>$ {{ ceil($order->monto - ($order->monto * ($order->descuento /100)))  }}</h4> </td>
+                                <td class="text-left" ><h4>$ {{ $order->monto - ceil($order->monto * $order->descuento /100)  }}</h4> </td>
                                 <td></td>
                             </tr>
                         </table>
@@ -269,7 +281,7 @@
                     <input required disabled="" class="btn btn-default" type="number" min="0" name="pago_tarj" id="pago_tarj" placeholder="Tarjeta" style="width: 48%;">
                  
                 </div>
-                <div class="ocultar" id='op2'>
+                <div class="ocultar" id='op2' style="margin-top: 15px">
                        <input required disabled="" class="btn btn-default" type="number"  min="0" name="numero_de_tarjeta" id="numero_de_tarjeta" placeholder="ultimos 4 numeros de la tarjeta" style="width: 100%;">
                 </div>
                 <input type="hidden" class="form-control" name="completada" value="1">

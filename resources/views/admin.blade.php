@@ -43,7 +43,7 @@
                            
                            @if($caja_abierta==1)
                             <li class="nav-item">
-                                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalEJ">Facturar</button>
+                                 <button type="button" style="vertical-align: text-top" class="btn btn-success" data-toggle="modal" data-target="#myModalEJ">Facturar</button>
                             </li>
                             @endif
                             
@@ -78,14 +78,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Facturar</h4>
+          <h4 class="modal-title">Facturar Servicio</h4>
         </div>
         <div class="modal-body row" style="margin-top:0px;">
             <div class="col-md-12">
               <form method="POST" action="/admin/control/ingresos/{{$tipo}}">
                         {!!csrf_field()!!}
 
-                        <div class="form-group col-md-3" style="padding-left: 0px;">
+                        <div class="form-group col-md-5" style="padding-left: 0px;">
                             <label>Atendió</label>
                             <select class="form-control text-uppercase text-uppercase" name="id_empleado" value="{{ old('id_empleado') }}">
                                 @foreach($empleados as $empleado)
@@ -96,7 +96,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group col-md-3" style="padding-left: 0px;">
+                        <div class="form-group col-md-5" style="padding-left: 0px;">
                             <label>Cliente</label>
                             <select class="form-control text-uppercase" name="id_cliente" value="{{ old('id_cliente') }}">
                                 @foreach($clientes as $cliente)
@@ -121,11 +121,8 @@
                         </div>
                     </form>
                 </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
     </div>
   </div>
   @endif

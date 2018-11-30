@@ -137,7 +137,7 @@
                             @endif
                         @endforeach
                     </td>
-                    <td><b>$</b> {{ $order->monto - $order->descuento }}</td>
+                    <td><b>$</b> {{ $order->pago_efec + $order->pago_tarj + 0 }}</td>
                     <td>{{ date('d/m/y', strtotime($order->created_at)) }}</td>
                     <td>{{ date('H:i', strtotime($order->created_at)) }} <b class="text-lowercase" >hs</b></td>
                     <td><a href="/admin/control/ingresos/{{$tipo}}/{{ $order->id }}" class="btn btn-success"><span class="oi oi-eye"></span></a></td>

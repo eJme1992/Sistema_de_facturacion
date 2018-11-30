@@ -61,7 +61,7 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>#{{ $order->id }}</td>
+                    #<td>{{ $order->id }}</td>
                     <td>
                         @foreach($orderTypes as $tipoOrden)
                             @if($tipoOrden->id == $order->id_type)

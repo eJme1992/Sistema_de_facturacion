@@ -432,7 +432,6 @@ class ControlController extends Controller
             $servicios = \DB::table('services')->get();
             $orders_indiv = \DB::table('orders_services')->where('id_order', $id_order)->get();
         }
-
         $order = Order::find($id_order);
         if ($order!=null) {
             $empleado = User::find($order->id_empleado)->nombre;
@@ -445,7 +444,7 @@ class ControlController extends Controller
                $formaPago = '';
                $numero_de_tarjeta = '';
             }
-            $subtitulo = "Cliente: " . strtoupper($cliente) . " | Atendió: " . strtoupper($empleado);
+            $subtitulo = "Cliente: " . mb_strtoupper($cliente,'utf-8') . " | Atendió: " . mb_strtoupper($empleado,'utf-8');
 
             if ($order->completada == 0 || $order->id_forma_pago != 3) {
                 $pie = "Forma de pago: ". strtoupper($formaPago);
@@ -465,7 +464,8 @@ class ControlController extends Controller
 
     public function store_suborden(Request $request, $id_order)
     {
-        if (\Request::is('*/productos/*')) {
+        if (\Request::is('*/productos/*')) 
+        {
             $id      = $request->id_producto;
             $cant    = $request->cantidad;
             $product = Product::find($id);
@@ -482,7 +482,9 @@ class ControlController extends Controller
             \DB::table('products')->where('id', $id)->decrement('quedan', $cant);
 
             return redirect()->route('control.ingresos.productos.agregar', compact('id_order'));
-        } else if (\Request::is('*/servicios/*')) {
+        } 
+        else if (\Request::is('*/servicios/*')) 
+        {
             $id = $request->id_servicio;
             $service = Service::find($id);
             $monto = $service->monto;
@@ -492,10 +494,10 @@ class ControlController extends Controller
                 'id_servicio' => $request['id_servicio'],
                 'detalle'     => $request['detalle'],
                 'descuento'   => $request['descuento1'],
-                'monto'       => $monto - ($monto * ($request['descuento1'] /100))
+                'monto'       => $monto - ceil($monto * ($request['descuento1'] /100))
             ]);
 
-            $total= $monto - ($monto * ($request['descuento1'] /100));
+            $total= $monto - ceil($monto * ($request['descuento1'] /100));
 
             // \DB::table('orders')->where('id', $id_order)->increment('monto', $monto);
 
@@ -545,20 +547,30 @@ class ControlController extends Controller
         $order->id_forma_pago = $request->input('id_forma_pago');
         $order->numero_de_tarjeta = $request->input('numero_de_tarjeta');
         $order->save();
-        $pagado = $order->monto - $order->descuento;
-        if ($order->id_forma_pago == 1) {
+        $pagado = $order->monto - ($order->monto * $order->descuento / 100);
+        
+        if ($order->id_forma_pago == 1) 
+        {
             \DB::table('orders')->where('id', $id_order)->update(['pago_efec' => $pagado]);
-        } elseif ($order->id_forma_pago == 2) {
+        } 
+        elseif ($order->id_forma_pago == 2) 
+        {
             \DB::table('orders')->where('id', $id_order)->update(['pago_tarj' => $pagado]);
-        } else {
+        } 
+        else 
+        {
             \DB::table('orders')->where('id', $id_order)->update(['pago_efec' => $request->pago_efec]);
             \DB::table('orders')->where('id', $id_order)->update(['pago_tarj' => $request->pago_tarj]);
         }
+        
         \DB::table('orders')->where('id', $id_order)->update(['completada' => 1]);
 
-        if (\Request::is('*/productos/*')) {
+        if (\Request::is('*/productos/*')) 
+        {
             return redirect()->route('control.ingresos.productos');
-        } else if (\Request::is('*/servicios/*')) {
+        } 
+        else if (\Request::is('*/servicios/*')) 
+        {
             return redirect()->route('control.ingresos.servicios');
         }
     }

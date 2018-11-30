@@ -79,7 +79,6 @@ class UserController extends Controller
     public function show($type, $nombre)
     {
         $user = User::where('nombre', $nombre)->first();
-        //dd($type);
         if ($user == null)
         {
             return view('errors.404');

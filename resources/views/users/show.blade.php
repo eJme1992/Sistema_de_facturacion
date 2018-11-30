@@ -17,7 +17,7 @@
 
             <div class="form-group col-md-2">
                 <label>Email</label>
-                <input readonly class="text-uppercase form-control" name="email" value="{{ $user->email }}" >
+                <input readonly class="form-control" name="email" value="{{ $user->email }}" >
             </div>
 
             <div class="form-group col-md-2">
