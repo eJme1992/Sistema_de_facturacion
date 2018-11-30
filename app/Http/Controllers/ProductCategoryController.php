@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ProductCategory;
 use Illuminate\Http\Request;
-use Facturar;
+use App\Facturar;
 
 class ProductCategoryController extends Controller
 {
